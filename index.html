@@ -47,15 +47,76 @@
             padding: 20px;
             text-align: center;
         }
+        .form-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            color: #000;
+            z-index: 1000;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
     </style>
 </head>
 <body>
+    <!-- Overlay for Modal Effect -->
+    <div class="overlay" id="overlay" onclick="hideForms()"></div>
+
+    <!-- Briefing Form -->
+    <div class="form-container" id="briefingForm">
+        <h3>Schedule a Briefing 📅</h3>
+        <form action="https://blastlabs.net/lllm/briefing" method="POST">
+            <input type="hidden" name="request_type" value="briefing">
+            <input type="hidden" name="timestamp" value="">
+            <div class="mb-3">
+                <label for="briefingName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="briefingName" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="briefingEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="briefingEmail" name="email" required>
+            </div>
+            <button type="submit" class="btn btn-exec text-white">Submit</button>
+        </form>
+    </div>
+
+    <!-- Demo Form -->
+    <div class="form-container" id="demoForm">
+        <h3>Book Your Demo 🎯</h3>
+        <form action="https://blastlabs.net/lllm/demo" method="POST">
+            <input type="hidden" name="request_type" value="demo">
+            <input type="hidden" name="timestamp" value="">
+            <div class="mb-3">
+                <label for="demoName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="demoName" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="demoEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="demoEmail" name="email" required>
+            </div>
+            <button type="submit" class="btn btn-exec text-white">Submit</button>
+        </form>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <h1 class="display-3 fw-bold">Your AI, Your Way 🚀</h1>
             <p class="lead">Fast. Secure. On-Site. The future of AI is yours.</p>
-            <button class="btn btn-exec text-white mt-3" onclick="pulseSVG()">Schedule a Briefing</button>
+            <button class="btn btn-exec text-white mt-3" onclick="showForm('briefing')">Schedule a Briefing</button>
             <div class="svg-container mt-4">
                 <svg id="aiOrb" width="100" height="100" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="40" fill="none" stroke="#fff" stroke-width="5"/>
@@ -97,13 +158,13 @@
         <div class="container">
             <h2>Ready to Lead with AI? 🎯</h2>
             <p class="lead">Don’t let your competition get ahead. Let’s make it happen.</p>
-            <button class="btn btn-exec text-white" onclick="pulseSVG()">Book Your Executive Demo</button>
+            <button class="btn btn-exec text-white" onclick="showForm('demo')">Book Your Executive Demo</button>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>AI That Answers to You © 2025 | <a href="mailto:exec@localized-llm.com" class="text-white">exec@localized-llm.com</a> | @LocalizedLLM</p>
+        <p>AI That Answers to You © 2025 | @LocalizedLLM</p>
     </footer>
 
     <!-- Bootstrap JS and Custom JS -->
@@ -121,7 +182,35 @@
         // Auto-pulse on load
         window.onload = () => {
             setInterval(pulseSVG, 2000);
+            // Set timestamps on load
+            document.querySelectorAll('input[name="timestamp"]').forEach(input => {
+                input.value = new Date().toISOString();
+            });
         };
+
+        function showForm(type) {
+            const overlay = document.getElementById('overlay');
+            const briefingForm = document.getElementById('briefingForm');
+            const demoForm = document.getElementById('demoForm');
+            overlay.style.display = 'block';
+            if (type === 'briefing') {
+                briefingForm.style.display = 'block';
+                demoForm.style.display = 'none';
+            } else if (type === 'demo') {
+                demoForm.style.display = 'block';
+                briefingForm.style.display = 'none';
+            }
+            pulseSVG();
+        }
+
+        function hideForms() {
+            const overlay = document.getElementById('overlay');
+            const briefingForm = document.getElementById('briefingForm');
+            const demoForm = document.getElementById('demoForm');
+            overlay.style.display = 'none';
+            briefingForm.style.display = 'none';
+            demoForm.style.display = 'none';
+        }
     </script>
 </body>
 </html>
