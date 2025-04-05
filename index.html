@@ -13,30 +13,48 @@
             color: #fff;
             min-height: 100vh;
         }
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .hero {
+            padding: 100px 0;
+            text-align: center;
         }
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        .btn-exec {
+            background-color: #dc3545;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        .btn-exec:hover {
+            transform: scale(1.05);
+        }
+        .btn-njweb {
+            background-color: #fff;
+            color: #1a2a6c;
+            padding: 8px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-njweb:hover {
+            background-color: #dc3545;
             color: #fff;
-            font-size: 2rem;
-            cursor: pointer;
-            z-index: 10000;
         }
-        iframe {
-            width: 90%;
-            height: 90%;
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 20px;
+            border-radius: 10px;
+            animation: fadeInUp 1s ease forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        footer {
+            background: #1a2a6c;
+            padding: 20px;
+            text-align: center;
         }
         .form-container {
             display: none;
@@ -60,84 +78,126 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 9999;
         }
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100000;
+        }
+        .video-overlay iframe {
+            width: 90%;
+            height: 90%;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            z-index: 100001;
+        }
     </style>
 </head>
 <body>
 
+<!-- Video Overlay -->
 <div class="video-overlay" id="videoOverlay">
     <div class="close-btn" onclick="closeVideo()">&times;</div>
     <iframe src="https://www.youtube.com/embed/w1KyEMqxRVs?autoplay=1&mute=1&controls=1&rel=0" frameborder="0" allowfullscreen></iframe>
 </div>
 
-<div class="overlay" id="overlay" onclick="hideForms()"></div>
+<!-- Full Main Content -->
+<div id="mainContent" style="display:none;">
+    <div class="overlay" id="overlay" onclick="hideForms()"></div>
 
-<!-- Briefing Form -->
-<div class="form-container" id="briefingForm">
-    <h3>Schedule a Briefing 📅</h3>
-    <form action="https://blastlabs.net/lllm/briefing" method="POST">
-        <input type="hidden" name="request_type" value="briefing">
-        <input type="hidden" name="timestamp" value="">
-        <input type="hidden" name="source" value="landing_page">
-        <input type="hidden" name="priority" value="high">
-        <div class="mb-3">
-            <label class="form-label">Name</label>
-            <input type="text" class="form-control" name="name" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Company</label>
-            <input type="text" class="form-control" name="company">
-        </div>
-        <button type="submit" class="btn btn-danger">Submit</button>
-    </form>
-</div>
-
-<!-- Demo Form -->
-<div class="form-container" id="demoForm">
-    <h3>Book Your Demo 🎯</h3>
-    <form action="https://blastlabs.net/lllm/demo" method="POST">
-        <input type="hidden" name="request_type" value="demo">
-        <input type="hidden" name="timestamp" value="">
-        <input type="hidden" name="intent" value="evaluation">
-        <input type="hidden" name="scale" value="enterprise">
-        <div class="mb-3">
-            <label class="form-label">Name</label>
-            <input type="text" class="form-control" name="name" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Role</label>
-            <input type="text" class="form-control" name="role">
-        </div>
-        <button type="submit" class="btn btn-danger">Submit</button>
-    </form>
-</div>
-
-<!-- Original Website Content -->
-<section class="hero text-center py-5">
-    <div class="container">
-        <h1 class="display-3 fw-bold">Your AI, Your Way 🚀</h1>
-        <p class="lead">Fast. Secure. On-Site. The future of AI is yours.</p>
-        <button class="btn btn-danger mt-3" onclick="showForm('briefing')">Schedule a Briefing</button>
+    <!-- Briefing Form -->
+    <div class="form-container" id="briefingForm">
+        <h3>Schedule a Briefing 📅</h3>
+        <form action="https://blastlabs.net/lllm/briefing" method="POST">
+            <input type="hidden" name="request_type" value="briefing">
+            <input type="hidden" name="timestamp" value="">
+            <input type="hidden" name="source" value="landing_page">
+            <input type="hidden" name="priority" value="high">
+            <div class="mb-3">
+                <label for="briefingName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="briefingName" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="briefingEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="briefingEmail" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="briefingCompany" class="form-label">Company</label>
+                <input type="text" class="form-control" id="briefingCompany" name="company">
+            </div>
+            <button type="submit" class="btn btn-exec text-white">Submit</button>
+        </form>
     </div>
-</section>
 
-<footer class="text-center py-4">
-    <p>AI That Answers to You © 2025 | Built by <a href="https://njweb.solutions" target="_blank" class="text-white">NJWeb.Solutions</a></p>
-</footer>
+    <!-- Demo Form -->
+    <div class="form-container" id="demoForm">
+        <h3>Book Your Demo 🎯</h3>
+        <form action="https://blastlabs.net/lllm/demo" method="POST">
+            <input type="hidden" name="request_type" value="demo">
+            <input type="hidden" name="timestamp" value="">
+            <input type="hidden" name="intent" value="evaluation">
+            <input type="hidden" name="scale" value="enterprise">
+            <div class="mb-3">
+                <label for="demoName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="demoName" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="demoEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="demoEmail" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="demoRole" class="form-label">Role</label>
+                <input type="text" class="form-control" id="demoRole" name="role">
+            </div>
+            <button type="submit" class="btn btn-exec text-white">Submit</button>
+        </form>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="display-3 fw-bold">Your AI, Your Way 🚀</h1>
+            <p class="lead">Fast. Secure. On-Site. The future of AI is yours.</p>
+            <button class="btn btn-exec text-white mt-3" onclick="showForm('briefing')">Schedule a Briefing</button>
+            <div class="svg-container mt-4">
+                <svg id="aiOrb" width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#fff" stroke-width="5"/>
+                    <circle cx="50" cy="50" r="20" fill="#dc3545" opacity="0.8" id="aiCore"/>
+                    <circle cx="50" cy="50" r="10" fill="#fff" id="aiPupil"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 text-center">
+        <div class="container">
+            <h2>Ready to Lead with AI? 🎯</h2>
+            <p class="lead">Don’t let your competition get ahead. Let’s make it happen.</p>
+            <button class="btn btn-exec text-white" onclick="showForm('demo')">Book Your Executive Demo</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>AI That Answers to You © 2025 | Built by <a href="https://njweb.solutions" target="_blank" class="btn-njweb">NJWeb.Solutions</a></p>
+    </footer>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function closeVideo() {
-        document.getElementById('videoOverlay').style.display = 'none';
-    }
-
     function showForm(type) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById(type + 'Form').style.display = 'block';
@@ -148,6 +208,55 @@
         document.getElementById('briefingForm').style.display = 'none';
         document.getElementById('demoForm').style.display = 'none';
     }
+
+    function closeVideo() {
+        document.getElementById('videoOverlay').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+    }
+
+    const orb = document.getElementById('aiOrb');
+    const core = document.getElementById('aiCore');
+    const pupil = document.getElementById('aiPupil');
+
+    function pulseSVG() {
+        if (!core) return;
+        core.setAttribute('r', '25');
+        setTimeout(() => core.setAttribute('r', '20'), 300);
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        if (!orb || !pupil) return;
+        const rect = orb.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const dx = (e.clientX - centerX) / 10;
+        const dy = (e.clientY - centerY) / 10;
+        const maxMove = 10;
+        const moveX = Math.max(-maxMove, Math.min(maxMove, dx));
+        const moveY = Math.max(-maxMove, Math.min(maxMove, dy));
+        pupil.setAttribute('transform', `translate(${moveX}, ${moveY})`);
+    });
+
+    document.addEventListener('touchmove', (e) => {
+        if (!orb || !pupil) return;
+        const touch = e.touches[0];
+        const rect = orb.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const dx = (touch.clientX - centerX) / 10;
+        const dy = (touch.clientY - centerY) / 10;
+        const maxMove = 10;
+        const moveX = Math.max(-maxMove, Math.min(maxMove, dx));
+        const moveY = Math.max(-maxMove, Math.min(maxMove, dy));
+        pupil.setAttribute('transform', `translate(${moveX}, ${moveY})`);
+    });
+
+    window.onload = () => {
+        setInterval(pulseSVG, 2000);
+        document.querySelectorAll('input[name="timestamp"]').forEach(input => {
+            input.value = new Date().toISOString();
+        });
+    };
 </script>
 </body>
 </html>
