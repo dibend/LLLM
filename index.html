@@ -4,274 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Localized-LLM | Your AI, Your Way</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a2a6c, #b2ebf2);
-            color: #fff;
-            min-height: 100vh;
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
-        .hero {
-            padding: 100px 0;
-            text-align: center;
-        }
-        .btn-exec {
-            background-color: #dc3545;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-        }
-        .btn-exec:hover {
-            transform: scale(1.05);
-        }
-        .btn-njweb {
-            background-color: #fff;
-            color: #1a2a6c;
-            padding: 8px 20px;
-            font-size: 1rem;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        .btn-njweb:hover {
-            background-color: #dc3545;
-            color: #fff;
-        }
-        .benefit-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            padding: 20px;
-            border-radius: 10px;
-            animation: fadeInUp 1s ease forwards;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .svg-container {
-            width: 100px;
-            margin: 0 auto;
-            position: relative;
-        }
-        #aiOrb {
-            transition: all 0.3s ease;
-        }
-        #aiPupil {
-            transition: transform 0.2s ease;
-        }
-        footer {
-            background: #1a2a6c;
-            padding: 20px;
-            text-align: center;
-        }
-        .form-container {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            color: #000;
-            z-index: 1000;
-        }
-        .overlay {
-            display: none;
+        .video-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 10000;
+        }
+        iframe {
+            width: 90%;
+            height: 90%;
         }
     </style>
 </head>
 <body>
-    <!-- Overlay for Modal Effect -->
-    <div class="overlay" id="overlay" onclick="hideForms()"></div>
 
-    <!-- Briefing Form -->
-    <div class="form-container" id="briefingForm">
-        <h3>Schedule a Briefing 📅</h3>
-        <form action="https://blastlabs.net/lllm/briefing" method="POST">
-            <input type="hidden" name="request_type" value="briefing">
-            <input type="hidden" name="timestamp" value="">
-            <input type="hidden" name="source" value="landing_page">
-            <input type="hidden" name="priority" value="high">
-            <div class="mb-3">
-                <label for="briefingName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="briefingName" name="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="briefingEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="briefingEmail" name="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="briefingCompany" class="form-label">Company</label>
-                <input type="text" class="form-control" id="briefingCompany" name="company">
-            </div>
-            <button type="submit" class="btn btn-exec text-white">Submit</button>
-        </form>
-    </div>
+<div class="video-overlay" id="videoOverlay">
+    <div class="close-btn" onclick="closeVideo()">&times;</div>
+    <iframe src="https://www.youtube.com/embed/w1KyEMqxRVs?autoplay=1&mute=1&controls=1&rel=0" frameborder="0" allowfullscreen></iframe>
+</div>
 
-    <!-- Demo Form -->
-    <div class="form-container" id="demoForm">
-        <h3>Book Your Demo 🎯</h3>
-        <form action="https://blastlabs.net/lllm/demo" method="POST">
-            <input type="hidden" name="request_type" value="demo">
-            <input type="hidden" name="timestamp" value="">
-            <input type="hidden" name="intent" value="evaluation">
-            <input type="hidden" name="scale" value="enterprise">
-            <div class="mb-3">
-                <label for="demoName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="demoName" name="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="demoEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="demoEmail" name="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="demoRole" class="form-label">Role</label>
-                <input type="text" class="form-control" id="demoRole" name="role">
-            </div>
-            <button type="submit" class="btn btn-exec text-white">Submit</button>
-        </form>
-    </div>
+<!-- Rest of your original page content here -->
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1 class="display-3 fw-bold">Your AI, Your Way 🚀</h1>
-            <p class="lead">Fast. Secure. On-Site. The future of AI is yours.</p>
-            <button class="btn btn-exec text-white mt-3" onclick="showForm('briefing')">Schedule a Briefing</button>
-            <div class="svg-container mt-4">
-                <svg id="aiOrb" width="100" height="100" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="#fff" stroke-width="5"/>
-                    <circle cx="50" cy="50" r="20" fill="#dc3545" opacity="0.8" id="aiCore"/>
-                    <circle cx="50" cy="50" r="10" fill="#fff" id="aiPupil"/>
-                </svg>
-            </div>
-        </div>
-    </section>
+<script>
+    function closeVideo() {
+        document.getElementById('videoOverlay').style.display = 'none';
+    }
+</script>
 
-    <!-- Benefits Section -->
-    <section class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-5">Your Competitive Edge 🌟</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="benefit-card text-center">
-                        <h3>🔒 Total Privacy</h3>
-                        <p>Your data stays yours—never leaves your walls.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="benefit-card text-center">
-                        <h3>⚡ Unmatched Speed</h3>
-                        <p>Instant answers, top-tier performance.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="benefit-card text-center">
-                        <h3>🤝 Tailored for You</h3>
-                        <p>Seamless fit for your business.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-5 text-center">
-        <div class="container">
-            <h2>Ready to Lead with AI? 🎯</h2>
-            <p class="lead">Don’t let your competition get ahead. Let’s make it happen.</p>
-            <button class="btn btn-exec text-white" onclick="showForm('demo')">Book Your Executive Demo</button>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>AI That Answers to You © 2025 | Built by <a href="https://njweb.solutions" target="_blank" class="btn-njweb">NJWeb.Solutions</a></p>
-    </footer>
-
-    <!-- Bootstrap JS and Custom JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const orb = document.getElementById('aiOrb');
-        const core = document.getElementById('aiCore');
-        const pupil = document.getElementById('aiPupil');
-
-        // Pulsing animation
-        function pulseSVG() {
-            core.setAttribute('r', '25');
-            setTimeout(() => {
-                core.setAttribute('r', '20');
-            }, 300);
-        }
-
-        // Mouse/Touch tracking
-        document.addEventListener('mousemove', (e) => {
-            const rect = orb.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const dx = (e.clientX - centerX) / 10; // Scale down movement
-            const dy = (e.clientY - centerY) / 10;
-            const maxMove = 10; // Limit pupil movement
-            const moveX = Math.max(-maxMove, Math.min(maxMove, dx));
-            const moveY = Math.max(-maxMove, Math.min(maxMove, dy));
-            pupil.setAttribute('transform', `translate(${moveX}, ${moveY})`);
-        });
-
-        document.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            const rect = orb.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const dx = (touch.clientX - centerX) / 10;
-            const dy = (touch.clientY - centerY) / 10;
-            const maxMove = 10;
-            const moveX = Math.max(-maxMove, Math.min(maxMove, dx));
-            const moveY = Math.max(-maxMove, Math.min(maxMove, dy));
-            pupil.setAttribute('transform', `translate(${moveX}, ${moveY})`);
-        });
-
-        // Auto-pulse on load
-        window.onload = () => {
-            setInterval(pulseSVG, 2000);
-            document.querySelectorAll('input[name="timestamp"]').forEach(input => {
-                input.value = new Date().toISOString();
-            });
-        };
-
-        function showForm(type) {
-            const overlay = document.getElementById('overlay');
-            const briefingForm = document.getElementById('briefingForm');
-            const demoForm = document.getElementById('demoForm');
-            overlay.style.display = 'block';
-            if (type === 'briefing') {
-                briefingForm.style.display = 'block';
-                demoForm.style.display = 'none';
-            } else if (type === 'demo') {
-                demoForm.style.display = 'block';
-                briefingForm.style.display = 'none';
-            }
-            pulseSVG();
-        }
-
-        function hideForms() {
-            const overlay = document.getElementById('overlay');
-            const briefingForm = document.getElementById('briefingForm');
-            const demoForm = document.getElementById('demoForm');
-            overlay.style.display = 'none';
-            briefingForm.style.display = 'none';
-            demoForm.style.display = 'none';
-        }
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
